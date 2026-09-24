@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { GameBoard } from './components/GameBoard';
 import { LocalMultiplayerSetup } from './components/LocalMultiplayerSetup';
 import { PlayerState } from './types';
+import LocalDatabase from './utils/localDatabase';
 import './App.css';
 
 function App() {
@@ -15,6 +16,11 @@ function App() {
   const [finalScore, setFinalScore] = useState<number | null>(null);
   const [finalPlayer, setFinalPlayer] = useState<PlayerState | null>(null);
   const [showMultiplayerSetup, setShowMultiplayerSetup] = useState(false);
+  const [showDataManagement, setShowDataManagement] = useState(false);
+  const [databaseStats, setDatabaseStats] = useState<any>(null);
+  const [dataMessage, setDataMessage] = useState('');
+
+  const db = LocalDatabase.getInstance();
 
   const handleGameOver = (score: number, player: PlayerState) => {
     setFinalScore(score);
@@ -50,7 +56,98 @@ function App() {
     setFinalScore(null);
     setFinalPlayer(null);
     setShowMultiplayerSetup(false);
+    setShowDataManagement(false);
   };
+
+  const handleShowDataManagement = async () => {
+    setShowDataManagement(true);
+    try {
+      const stats = await db.getDatabaseStats();
+      setDatabaseStats(stats);
+      setDataMessage('');
+    } catch (error) {
+      setDataMessage('Failed to load database stats');
+    }
+  };
+
+  const handleClearOldData = async () => {
+    try {
+      const deleted = await db.cleanupOldData(30);
+      setDataMessage(`Cleared ${deleted} old records`);
+      const stats = await db.getDatabaseStats();
+      setDatabaseStats(stats);
+    } catch (error) {
+      setDataMessage('Failed to clear old data');
+    }
+  };
+
+  const handleClearAllData = async () => {
+    if (window.confirm('Are you sure you want to delete ALL data? This cannot be undone.')) {
+      try {
+        await db.clearAllData();
+        setDataMessage('All data cleared successfully');
+        const stats = await db.getDatabaseStats();
+        setDatabaseStats(stats);
+      } catch (error) {
+        setDataMessage('Failed to clear all data');
+      }
+    }
+  };
+
+  const handleExportData = async () => {
+    try {
+      const exportData = await db.exportData();
+      const blob = new Blob([exportData], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `pattern-paradox-backup-${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      setDataMessage('Data exported successfully');
+    } catch (error) {
+      setDataMessage('Failed to export data');
+    }
+  };
+
+  const handleImportData = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'application/json';
+    input.onchange = async (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file) {
+        try {
+          const text = await file.text();
+          await db.importData(text);
+          setDataMessage('Data imported successfully');
+          const stats = await db.getDatabaseStats();
+          setDatabaseStats(stats);
+        } catch (error) {
+          setDataMessage('Failed to import data');
+        }
+      }
+    };
+    input.click();
+  };
+
+  if (showDataManagement) {
+    return (
+      <div className="app">
+        <DataManagement 
+          onBack={handleBackToMenu}
+          onClearOldData={handleClearOldData}
+          onClearAllData={handleClearAllData}
+          onExportData={handleExportData}
+          onImportData={handleImportData}
+          stats={databaseStats}
+          message={dataMessage}
+        />
+      </div>
+    );
+  }
 
   if (showMultiplayerSetup) {
     return (
@@ -195,9 +292,88 @@ function App() {
 
         <div className="data-management">
           <h3>Data Management</h3>
-          <button onClick={() => window.location.reload()} className="data-btn">
-            🔄 Refresh App
+          <button onClick={handleShowDataManagement} className="data-btn">
+            📊 Manage Data
           </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DataManagement({ 
+  onBack, 
+  onClearOldData, 
+  onClearAllData, 
+  onExportData, 
+  onImportData, 
+  stats, 
+  message 
+}: { 
+  onBack: () => void;
+  onClearOldData: () => void;
+  onClearAllData: () => void;
+  onExportData: () => void;
+  onImportData: () => void;
+  stats: any;
+  message: string;
+}) {
+  return (
+    <div className="app">
+      <div className="data-management-panel">
+        <div className="panel-header">
+          <button onClick={onBack} className="back-btn">← Back</button>
+          <h2>Data Management</h2>
+        </div>
+
+        {message && (
+          <div className="data-message">{message}</div>
+        )}
+
+        {stats && (
+          <div className="database-stats">
+            <h3>Database Statistics</h3>
+            <div className="stat-row">
+              <span className="stat-label">Total Players:</span>
+              <span className="stat-value">{stats.totalPlayers}</span>
+            </div>
+            <div className="stat-row">
+              <span className="stat-label">Total Games:</span>
+              <span className="stat-value">{stats.totalGames}</span>
+            </div>
+            <div className="stat-row">
+              <span className="stat-label">Analytics Events:</span>
+              <span className="stat-value">{stats.totalEvents}</span>
+            </div>
+            <div className="stat-row">
+              <span className="stat-label">Database Size:</span>
+              <span className="stat-value">{stats.estimatedSize}</span>
+            </div>
+          </div>
+        )}
+
+        <div className="data-actions">
+          <h3>Data Actions</h3>
+          <button onClick={onClearOldData} className="data-action-btn">
+            🧹 Clear Old Data (30+ days)
+          </button>
+          <button onClick={onClearAllData} className="data-action-btn danger">
+            🗑️ Clear All Data
+          </button>
+          <button onClick={onExportData} className="data-action-btn">
+            📤 Export Data (Backup)
+          </button>
+          <button onClick={onImportData} className="data-action-btn">
+            📥 Import Data (Restore)
+          </button>
+        </div>
+
+        <div className="data-info">
+          <h3>Information</h3>
+          <p>• Old data is automatically cleaned up every 30 days</p>
+          <p>• Export data to backup your progress</p>
+          <p>• Import data to restore from backup</p>
+          <p>• Clear all data to reset the game completely</p>
         </div>
       </div>
     </div>

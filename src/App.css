@@ -249,6 +249,130 @@ body {
   background: #764ba2;
 }
 
+/* Data Management Panel */
+.data-management-panel {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.panel-header h2 {
+  color: #667eea;
+  margin: 0;
+}
+
+.data-message {
+  padding: 15px;
+  background: #e8f5e9;
+  border-left: 4px solid #4caf50;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  color: #2e7d32;
+  font-weight: 500;
+}
+
+.database-stats {
+  margin-bottom: 30px;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 10px;
+}
+
+.database-stats h3 {
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.stat-row:last-child {
+  border-bottom: none;
+}
+
+.stat-label {
+  font-weight: 600;
+  color: #555;
+}
+
+.stat-value {
+  font-weight: 700;
+  color: #667eea;
+}
+
+.data-actions {
+  margin-bottom: 30px;
+}
+
+.data-actions h3 {
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.data-action-btn {
+  width: 100%;
+  padding: 15px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #667eea;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 10px;
+}
+
+.data-action-btn:hover {
+  background: #764ba2;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+.data-action-btn.danger {
+  background: #f44336;
+}
+
+.data-action-btn.danger:hover {
+  background: #d32f2f;
+  box-shadow: 0 5px 15px rgba(244, 67, 54, 0.3);
+}
+
+.data-info {
+  padding: 20px;
+  background: #e3f2fd;
+  border-radius: 10px;
+  border-left: 4px solid #2196f3;
+}
+
+.data-info h3 {
+  color: #1565c0;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.data-info p {
+  margin: 5px 0;
+  color: #555;
+  font-size: 0.9rem;
+}
+
 /* Local Multiplayer Setup Styles */
 .local-multiplayer-setup {
   background: white;
