@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { GameBoard } from './components/GameBoard';
 import { LocalMultiplayerSetup } from './components/LocalMultiplayerSetup';
 import { PlayerState } from './types';
@@ -21,6 +21,21 @@ function App() {
   const [dataMessage, setDataMessage] = useState('');
 
   const db = LocalDatabase.getInstance();
+
+  // Load Jev API key from localStorage on app start
+  useEffect(() => {
+    const savedKey = localStorage.getItem('jevApiKey');
+    if (savedKey) {
+      setJevApiKey(savedKey);
+    }
+  }, []);
+
+  // Save Jev API key to localStorage when user enters it
+  useEffect(() => {
+    if (jevApiKey) {
+      localStorage.setItem('jevApiKey', jevApiKey);
+    }
+  }, [jevApiKey]);
 
   const handleGameOver = (score: number, player: PlayerState) => {
     setFinalScore(score);
@@ -109,6 +124,13 @@ function App() {
       setDataMessage('Data exported successfully');
     } catch (error) {
       setDataMessage('Failed to export data');
+    }
+  };
+
+  const handleClearApiKey = () => {
+    if (window.confirm('Are you sure you want to remove your Jev API key? The game will use fallback logic instead.')) {
+      setJevApiKey('');
+      localStorage.removeItem('jevApiKey');
     }
   };
 
@@ -272,6 +294,17 @@ function App() {
                 onChange={(e) => setJevApiKey(e.target.value)}
                 placeholder="Enter your TypeSafe Jev API key"
               />
+              {jevApiKey && (
+                <div className="api-key-status">
+                  <span className="api-key-saved">✓ API key saved</span>
+                  <button 
+                    onClick={handleClearApiKey}
+                    className="clear-api-key-btn"
+                  >
+                    Remove
+                  </button>
+                </div>
+              )}
               <p className="api-note">
                 Without API key, the game uses local fallback logic. 
                 Get your key at <a href="https://typesafe.ai" target="_blank" rel="noopener noreferrer">typesafe.ai</a>
