@@ -13,6 +13,11 @@ An AI-powered adaptive brain game that learns your strengths and weaknesses to c
 - 🌐 **Offline-First**: Fully functional without internet connection
 - 🏆 **Competitive**: Leaderboards, streaks, and scoring systems
 - 🔒 **Privacy-Focused**: All data stored locally on device
+- 📦 **PWA Ready**: Installable as a progressive web app
+- 🎨 **Social Media Optimized**: Open Graph tags for better link sharing
+- 📱 **QR Code**: Easy mobile sharing and distribution
+- 🔧 **Data Management**: In-app panel for backup, restore, and cleanup
+- 🔑 **Persistent API Key**: Enter Jev API key once, use forever
 
 ## 🎮 How to Play
 
@@ -68,8 +73,18 @@ Pattern Paradox uses TypeSafe's Jev AI for adaptive gameplay:
 - **Score**: Evaluates performance (0-100 scale)
 - **Noul**: Determines when to increase difficulty
 
+### API Key Management
+- **Persistent Storage**: API key is saved to localStorage (enter once, use forever)
+- **Optional**: Game works perfectly without API key using local fallback logic
+- **Easy Setup**: Enter your key in Settings → Get full AI features
+- **Removable**: Can remove API key anytime to use fallback logic
+
 ### Without API Key
-The game includes robust local fallback logic, so it works perfectly without the Jev API key.
+The game includes robust local fallback logic, so it works perfectly without the Jev API key:
+- **Pattern Selection**: Random selection from player's weak areas
+- **Performance**: Simple accuracy-based scoring
+- **Difficulty**: Rule-based progression (3+ streak = level up)
+- **Hints**: Pre-defined hints for each pattern type
 
 ### Get Jev API Key
 Sign up at [typesafe.ai](https://typesafe.ai) to enable full AI features.
@@ -100,6 +115,16 @@ Sign up at [typesafe.ai](https://typesafe.ai) to enable full AI features.
 - **Retention**: 30 days for detailed analytics
 - **Cleanup**: Automatic and manual options
 - **Backup**: Export/import functionality
+- **API Key**: Persistent localStorage storage (enter once, use forever)
+
+### In-App Data Management
+The game includes a comprehensive data management panel accessible from the main menu:
+- **View Statistics**: See total players, games, events, and database size
+- **Clear Old Data**: Remove data older than 30 days to free up space
+- **Clear All Data**: Complete factory reset with confirmation
+- **Export Data**: Download backup as JSON file
+- **Import Data**: Restore from backup file
+- **API Key Management**: Enter, view, and remove Jev API key with persistence
 
 ### Database Cleanup
 The game automatically manages local storage:

@@ -315,12 +315,33 @@ function App() {
 
         <div className="game-info">
           <h3>How to Play</h3>
-          <ul>
-            <li>Solve patterns as fast as possible</li>
-            <li>AI adapts to your strengths and weaknesses</li>
-            <li>Build streaks for bonus points</li>
-            <li>Play solo or with friends locally</li>
-          </ul>
+          <div className="how-to-play-content">
+            <p><strong>🎯 Objective:</strong> Solve patterns as fast as possible before time runs out!</p>
+            
+            <p><strong>🧩 Pattern Types:</strong></p>
+            <ul>
+              <li><strong>Numeric:</strong> 2, 4, 6, 8, ? → Answer: 10</li>
+              <li><strong>Visual:</strong> 🔴 🔵 🔴 🔵 ? → Answer: 🔴</li>
+              <li><strong>Logical:</strong> 5+3=8, 6+4=10, 7+5=? → Answer: 12</li>
+            </ul>
+            
+            <p><strong>⏱️ Time Limit:</strong> Each pattern has a time limit (10-30 seconds)</p>
+            
+            <p><strong>🎯 Scoring:</strong></p>
+            <ul>
+              <li>Base points for difficulty</li>
+              <li>Time bonus for fast answers</li>
+              <li>Streak multiplier for consecutive correct answers</li>
+            </ul>
+            
+            <p><strong>🤖 AI Adaptation:</strong> The game learns your strengths and weaknesses, creating personalized challenges that target your weak spots.</p>
+            
+            <p><strong>🎮 Game Modes:</strong></p>
+            <ul>
+              <li>Single Player: Play solo at your own pace</li>
+              <li>Local Multiplayer: 2-4 players on same device</li>
+            </ul>
+          </div>
         </div>
 
         <div className="data-management">

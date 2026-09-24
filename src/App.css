@@ -586,6 +586,20 @@ body {
   font-weight: bold;
 }
 
+.how-to-play-content {
+  color: #444;
+  line-height: 1.6;
+}
+
+.how-to-play-content p {
+  margin: 12px 0;
+}
+
+.how-to-play-content strong {
+  color: #667eea;
+  font-weight: 700;
+}
+
 /* Game Board */
 .game-board {
   background: white;
