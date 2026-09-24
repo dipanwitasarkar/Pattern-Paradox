@@ -8,8 +8,6 @@
     "web": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest",
-    "predeploy": "npm run build && npm run generate-qr",
-    "deploy": "gh-pages -d build",
     "generate-qr": "node scripts/generate-qr.js"
   },
   "dependencies": {
