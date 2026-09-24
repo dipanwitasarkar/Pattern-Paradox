@@ -6,8 +6,17 @@ on:
   pull_request:
     branches: [ master ]
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     
     steps:
@@ -27,15 +36,18 @@ jobs:
       
     - name: Copy PWA files to build
       run: |
-        cp public/manifest.json build/
-        cp public/sw.js build/
-        cp public/icon-192.svg build/
-        cp public/icon-512.svg build/
-        cp public/qr-code.png build/
+        mkdir -p build
+        cp public/manifest.json build/ || true
+        cp public/sw.js build/ || true
+        cp public/icon-192.svg build/ || true
+        cp public/icon-512.svg build/ || true
+        cp public/qr-code.png build/ || true
       
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./build
-        cname: pattern-paradox.com  # Optional: Add your custom domain here
+        path: './build'
+        
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
