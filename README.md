@@ -172,11 +172,23 @@ The game tracks comprehensive local analytics:
 
 ## 🌐 Deployment
 
+### Live Game URL
+**Play the game now:** https://dipanwitasarkar.github.io/Pattern-Paradox/
+
+### QR Code for Easy Sharing
+![QR Code](https://dipanwitasarkar.github.io/Pattern-Paradox/qr-code.png)
+
+**How to use the QR code:**
+- Mobile users can scan the QR code to open the game directly
+- Print the QR code on flyers, posters, or business cards
+- Share the QR code image on social media
+- Display at events or presentations
+
 ### Static Hosting
-The game is a static React app that can be deployed to:
+The game is a static React app deployed to GitHub Pages and can be deployed to:
 - Vercel
 - Netlify
-- GitHub Pages
+- GitHub Pages (current deployment)
 - Any static file hosting service
 
 ### Build Commands

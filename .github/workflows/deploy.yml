@@ -25,6 +25,14 @@ jobs:
     - name: Build project
       run: npm run build
       
+    - name: Copy PWA files to build
+      run: |
+        cp public/manifest.json build/
+        cp public/sw.js build/
+        cp public/icon-192.svg build/
+        cp public/icon-512.svg build/
+        cp public/qr-code.png build/
+      
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
